@@ -19,5 +19,10 @@ export type TErrorDetails = {
 export type TCustomSimplifiedError = {
   statusCode?: number;
   message: string;
-  errorDetails: TErrorDetails;
+  errorDetails: TErrorDetails | any;
+};
+
+export type TJwtPayload = {
+  email: string;
+  name: string;
 };
