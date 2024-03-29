@@ -21,7 +21,6 @@ model User {
   createdAt DateTime
   updatedAt DateTime
 
-  // adoptionRequest Pet
   AdoptionReques AdoptionReques[]
 
   @@map("users")
