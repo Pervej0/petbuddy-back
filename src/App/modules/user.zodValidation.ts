@@ -1,6 +1,6 @@
 import z from "zod";
 
-export const userZodValidation = z.object({
+export const userValidationSchema = z.object({
   name: z.string().min(1, { message: "Name must not be empty" }),
   email: z.string().email({ message: "Invalid email format" }),
   password: z
@@ -8,7 +8,7 @@ export const userZodValidation = z.object({
     .min(6, { message: "Password must be at least 6 characters long" }),
 });
 
-export const UpdateUserZodValidation = z.object({
+export const UpdateUserValidationSchema = z.object({
   name: z.string().min(1, { message: "Name must not be empty" }).optional(),
   email: z.string().email({ message: "Invalid email format" }).optional(),
   password: z
