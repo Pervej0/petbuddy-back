@@ -7,6 +7,5 @@ export const createUserDB = async (payload: TUser) => {
   const user = await prisma.user.create({
     data: payload,
   });
-
   return user;
 };

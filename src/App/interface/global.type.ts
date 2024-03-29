@@ -10,3 +10,14 @@ export type TJsonData<T> = {
   meta?: TMeta;
   data: T;
 };
+
+export type TErrorDetails = {
+  field: string | number;
+  message: string;
+}[];
+
+export type TCustomSimplifiedError = {
+  statusCode?: number;
+  message: string;
+  errorDetails: TErrorDetails;
+};

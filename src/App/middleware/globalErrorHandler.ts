@@ -1,6 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import { StatusCodes } from "http-status-codes";
 import { ZodError } from "zod";
+import handledZodError from "../errors/handledZodError";
 
 const globalErrorHandler = (
   err: Error,
@@ -13,10 +14,11 @@ const globalErrorHandler = (
   let message = "Something Went Wrong";
   let errorDetails = err;
 
-  // if (err instanceof ZodError) {
-  //   message = err?.message;
-  //   errorDetails = err;
-  // }
+  if (err instanceof ZodError) {
+    const customSimplifiedError = handledZodError(err);
+    message = customSimplifiedError?.message;
+    errorDetails = customSimplifiedError?.errorDetails;
+  }
 
   res.status(statusCode).json({ success, message, errorDetails });
 
