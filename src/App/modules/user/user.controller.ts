@@ -5,6 +5,8 @@ import { StatusCodes } from "http-status-codes";
 import sendResponse from "../../shared/sendResponse";
 
 export const createUser: RequestHandler = asyncCatch(async (req, res) => {
+  console.log(req.body);
+  return;
   const result = await createUserDB(req.body);
 
   sendResponse(res, {

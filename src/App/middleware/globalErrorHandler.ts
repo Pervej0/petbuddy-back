@@ -10,7 +10,7 @@ const globalErrorHandler = (
 ) => {
   let statusCode = StatusCodes.BAD_REQUEST;
   let success = false;
-  let message = err.message || "Something Went Wrong";
+  let message = "Something Went Wrong";
   let errorDetails = err;
 
   // if (err instanceof ZodError) {
