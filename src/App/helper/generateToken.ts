@@ -1,12 +1,14 @@
 import { TJwtPayload } from "../interface/global.type";
 import jwt from "jsonwebtoken";
 
-const generateToken = async (
+const generateToken = (
   payload: TJwtPayload,
   secret: string,
   expiresIn: string
 ) => {
-  const token = jwt.sign(payload, secret, { algorithm: "RS256", expiresIn });
+  const token = jwt.sign(payload, secret, {
+    expiresIn,
+  });
   return token;
 };
 

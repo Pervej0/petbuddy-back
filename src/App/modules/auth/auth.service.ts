@@ -20,7 +20,6 @@ export const loginUserDB = async (payload: {
     payload.password,
     isUserExist.password
   );
-  console.log(comparePassword);
 
   if (!comparePassword) {
     throw new CustomError(StatusCodes.NOT_FOUND, "User dose not exist!");
@@ -31,19 +30,24 @@ export const loginUserDB = async (payload: {
     name: isUserExist.name,
   };
 
-  // const accessToken = generateToken(
-  //   tokenPayload,
-  //   config.ACCESS_TOKEN_SECRET as string,
-  //   config.ACCESS_TOKEN_EXPIRES_IN as string
-  // );
-  // const refreshToken = generateToken(
-  //   tokenPayload,
-  //   config.REFRESH_TOKEN_SECRET as string,
-  //   config.REFRESH_TOKEN_EXPIRES_IN as string
-  // );
+  const accessToken = await generateToken(
+    tokenPayload,
+    config.ACCESS_TOKEN_SECRET as string,
+    config.ACCESS_TOKEN_EXPIRES_IN as string
+  );
+  const refreshToken = await generateToken(
+    tokenPayload,
+    config.REFRESH_TOKEN_SECRET as string,
+    config.REFRESH_TOKEN_EXPIRES_IN as string
+  );
 
-  console.log({
-    refreshToken: null,
-    accessToken: "",
-  });
+  return {
+    refreshToken,
+    data: {
+      id: isUserExist.id,
+      name: isUserExist.name,
+      email: isUserExist.email,
+      token: accessToken,
+    },
+  };
 };

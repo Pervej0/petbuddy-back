@@ -6,10 +6,10 @@ import sendResponse from "../../shared/sendResponse";
 
 export const loginUser: RequestHandler = asyncCatch(async (req, res) => {
   const result = await loginUserDB(req.body);
-
+  res.cookie("refreshToken", result.refreshToken);
   sendResponse(res, {
     statusCode: StatusCodes.OK,
     message: "User logged in successfully",
-    data: result,
+    data: result.data,
   });
 });
