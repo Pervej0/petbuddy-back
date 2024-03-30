@@ -1,4 +1,4 @@
-import { PrismaClient } from "@prisma/client";
+import { AdoptionRequest, PrismaClient } from "@prisma/client";
 import { TJwtDecode } from "../../interface/global.type";
 const prisma = new PrismaClient();
 
@@ -19,4 +19,15 @@ export const createAdoptionRequestDB = async (
   });
 
   return adoptionRequest;
+};
+
+export const updateAdoptionRequestDB = (
+  id: string,
+  payload: Partial<AdoptionRequest>
+) => {
+  const update = prisma.adoptionRequest.update({
+    where: { id },
+    data: payload,
+  });
+  return update;
 };

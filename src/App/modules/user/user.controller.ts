@@ -1,6 +1,6 @@
 import { RequestHandler } from "express";
 import asyncCatch from "../../shared/asyncCatch";
-import { createUserDB, getAllUsersDB } from "./user.service";
+import { createUserDB, getAllUsersDB, updateUserDB } from "./user.service";
 import { StatusCodes } from "http-status-codes";
 import sendResponse from "../../shared/sendResponse";
 
@@ -20,6 +20,16 @@ export const createUser: RequestHandler = asyncCatch(async (req, res) => {
   sendResponse(res, {
     statusCode: StatusCodes.CREATED,
     message: "User registered successfully",
+    data: result,
+  });
+});
+
+export const updateUser: RequestHandler = asyncCatch(async (req: any, res) => {
+  const result = await updateUserDB(req.user, req.body);
+
+  sendResponse(res, {
+    statusCode: StatusCodes.OK,
+    message: "User profile updated successfully",
     data: result,
   });
 });
