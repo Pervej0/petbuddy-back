@@ -6,11 +6,13 @@ import {
 } from "./adoptionRequest.zodValidation";
 import {
   createAdoptionRequest,
+  getAllAdoptionRequests,
   updateAdoptionRequest,
 } from "./adoptionRequest.controller";
 import auth from "../../middleware/auth";
 const router = express.Router();
 
+router.get("/adoption-requests", auth(), getAllAdoptionRequests);
 router.post(
   "/adoption-request",
   auth(),

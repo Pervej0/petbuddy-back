@@ -1,5 +1,5 @@
 import { TPet } from "./pet.interface";
-import { PrismaClient } from "@prisma/client";
+import { Pet, PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 
 export const createPetDB = async (payload: TPet) => {
@@ -8,4 +8,16 @@ export const createPetDB = async (payload: TPet) => {
   });
 
   return petData;
+};
+
+export const getAllPetDB = async (query: Record<string, unknown>) => {};
+
+export const updatePetDB = async (petId: string, payload: Partial<Pet>) => {
+  console.log(petId, payload);
+
+  const update = await prisma.pet.update({
+    where: { id: petId },
+    data: payload,
+  });
+  return update;
 };

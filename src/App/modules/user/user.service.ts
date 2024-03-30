@@ -27,8 +27,9 @@ export const createUserDB = async (payload: TUser) => {
   return user;
 };
 
-export const getAllUsersDB = async (payload: TUser) => {
-  const allUser = await prisma.user.findMany({
+export const getAUserDB = async (payload: TJwtDecode) => {
+  const allUser = await prisma.user.findUniqueOrThrow({
+    where: { email: payload.email },
     select: {
       id: true,
       name: true,

@@ -1,10 +1,21 @@
 import express from "express";
-import { createPet } from "./pet.controller";
+import { createPet, updatePet } from "./pet.controller";
 import validationChecker from "../../middleware/validationChecker";
-import { petValidationSchema } from "./pet.zodValidation";
+import {
+  UpdatePetValidationSchema,
+  petValidationSchema,
+} from "./pet.zodValidation";
+import auth from "../../middleware/auth";
 const router = express.Router();
 
-router.post("/pets", validationChecker(petValidationSchema), createPet);
+router.get("");
+router.post("/pets", auth(), validationChecker(petValidationSchema), createPet);
+router.put(
+  "/pets/:petId",
+  auth(),
+  validationChecker(UpdatePetValidationSchema),
+  updatePet
+);
 
 const petRouter = router;
 

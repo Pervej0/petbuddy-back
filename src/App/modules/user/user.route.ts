@@ -1,5 +1,5 @@
 import express from "express";
-import { createUser, getAllUsers, updateUser } from "./user.controller";
+import { createUser, getAUser, updateUser } from "./user.controller";
 import {
   UpdateUserValidationSchema,
   userValidationSchema,
@@ -8,7 +8,7 @@ import validationChecker from "../../middleware/validationChecker";
 import auth from "../../middleware/auth";
 const router = express.Router();
 
-router.get("/profile", auth(), getAllUsers);
+router.get("/profile", auth(), getAUser);
 router.post(
   "/register",
   auth(),

@@ -21,13 +21,18 @@ export const createAdoptionRequestDB = async (
   return adoptionRequest;
 };
 
-export const updateAdoptionRequestDB = (
-  id: string,
+export const updateAdoptionRequestDB = async (
+  requestId: string,
   payload: Partial<AdoptionRequest>
 ) => {
-  const update = prisma.adoptionRequest.update({
-    where: { id },
+  const update = await prisma.adoptionRequest.update({
+    where: { id: requestId },
     data: payload,
   });
   return update;
+};
+
+export const getAllAdoptionRequestsDB = async () => {
+  const requests = await prisma.adoptionRequest.findMany({});
+  return requests;
 };
