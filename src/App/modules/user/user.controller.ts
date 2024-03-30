@@ -18,7 +18,7 @@ export const createUser: RequestHandler = asyncCatch(async (req, res) => {
   const result = await createUserDB(req.body);
 
   sendResponse(res, {
-    statusCode: StatusCodes.OK,
+    statusCode: StatusCodes.CREATED,
     message: "User registered successfully",
     data: result,
   });

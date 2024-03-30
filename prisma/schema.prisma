@@ -32,7 +32,7 @@ model Pet {
   species              String
   breed                String
   age                  Int
-  size                 petSizee
+  size                 petSize
   location             String
   description          String
   temperament          String
@@ -43,10 +43,10 @@ model Pet {
   AdoptionReques       AdoptionReques[]
 }
 
-enum petSizee {
-  small
-  medium
-  large
+enum petSize {
+  Small
+  Medium
+  Large
 }
 
 model AdoptionReques {
