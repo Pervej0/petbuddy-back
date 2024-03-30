@@ -14,6 +14,10 @@ const globalErrorHandler = (
   let message = "Something Went Wrong";
   let errorDetails = err;
 
+  if (err instanceof Error) {
+    message = err.message;
+    errorDetails = err;
+  }
   if (err instanceof ZodError) {
     const customSimplifiedError = handledZodError(err);
     message = customSimplifiedError?.message;
