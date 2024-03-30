@@ -2,6 +2,7 @@ import express from "express";
 import userRouter from "../modules/user/user.route";
 import authRouter from "../modules/auth/auth.route";
 import petRouter from "../modules/pet/pet.router";
+import AdoptionRequestRouter from "../modules/adoptionRequest/adoptionRequest.router";
 const router = express.Router();
 
 const allRoutes = [
@@ -10,6 +11,9 @@ const allRoutes = [
   },
   {
     route: petRouter,
+  },
+  {
+    route: AdoptionRequestRouter,
   },
   {
     route: authRouter,

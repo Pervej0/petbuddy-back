@@ -41,7 +41,7 @@ export const UpdatePetValidationSchema = z.object({
       .int()
       .positive({ message: "Must be positive number" })
       .optional(),
-    size: z.enum([petSize.large, petSize.medium, petSize.small]).optional(),
+    size: z.enum([petSize.Large, petSize.Medium, petSize.Small]).optional(),
     location: z.string({ required_error: "Location is required!" }).optional(),
     description: z
       .string({ required_error: "Description is required!" })

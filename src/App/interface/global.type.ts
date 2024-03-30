@@ -26,3 +26,10 @@ export type TJwtPayload = {
   email: string;
   name: string;
 };
+
+export type TJwtDecode = {
+  email: string;
+  name: string;
+  iat: number;
+  exp: number;
+};

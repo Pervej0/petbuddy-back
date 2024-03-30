@@ -6,7 +6,11 @@ import config from "../config";
 import { JwtPayload, Secret } from "jsonwebtoken";
 
 const auth = () => {
-  return async (req: Request, res: Response, next: NextFunction) => {
+  return async (
+    req: Request & { user?: any },
+    res: Response,
+    next: NextFunction
+  ) => {
     try {
       const token = req.headers.authorization;
       if (!token) {
@@ -20,6 +24,9 @@ const auth = () => {
       if (Object.entries(decode).length < 1) {
         throw new CustomError(StatusCodes.BAD_REQUEST, "Unauthorized Access");
       }
+
+      req.user = decode;
+
       next();
     } catch (err) {
       next(err);

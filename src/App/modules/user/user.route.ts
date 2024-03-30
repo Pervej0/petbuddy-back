@@ -1,6 +1,6 @@
 import express from "express";
 import { createUser, getAllUsers } from "./user.controller";
-import { userValidationSchema } from "../user.zodValidation";
+import { userValidationSchema } from "./user.zodValidation";
 import validationChecker from "../../middleware/validationChecker";
 import auth from "../../middleware/auth";
 const router = express.Router();

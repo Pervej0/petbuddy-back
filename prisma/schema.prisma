@@ -21,13 +21,13 @@ model User {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  AdoptionReques AdoptionReques[]
+  AdoptionRequest AdoptionRequest[]
 
   @@map("users")
 }
 
 model Pet {
-  id                   String           @id @default(uuid())
+  id                   String            @id @default(uuid())
   name                 String
   species              String
   breed                String
@@ -38,9 +38,11 @@ model Pet {
   temperament          String
   medicalHistory       String
   adoptionRequirements String
-  createdAt            DateTime         @default(now())
-  updatedAt            DateTime         @updatedAt
-  AdoptionReques       AdoptionReques[]
+  createdAt            DateTime          @default(now())
+  updatedAt            DateTime          @updatedAt
+  AdoptionRequest      AdoptionRequest[]
+
+  @@map("pets")
 }
 
 enum petSize {
@@ -49,19 +51,21 @@ enum petSize {
   Large
 }
 
-model AdoptionReques {
-  id                     String               @id @default(uuid())
-  user                   User                 @relation(fields: [userId], references: [id])
+model AdoptionRequest {
+  id                     String                @id @default(uuid())
+  user                   User                  @relation(fields: [userId], references: [id])
   userId                 String
-  pet                    Pet                  @relation(fields: [petId], references: [id])
+  pet                    Pet                   @relation(fields: [petId], references: [id])
   petId                  String
-  status                 AdoptionRequesStatus @default(PENDING)
+  status                 AdoptionRequestStatus @default(PENDING)
   petOwnershipExperience String
-  createdAt              DateTime             @default(now())
-  updatedAt              DateTime             @updatedAt
+  createdAt              DateTime              @default(now())
+  updatedAt              DateTime              @updatedAt
+
+  @@map("adoptionRequests")
 }
 
-enum AdoptionRequesStatus {
+enum AdoptionRequestStatus {
   PENDING
   APPROVED
   REJECTED
