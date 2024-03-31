@@ -39,23 +39,32 @@ export const getAllPetDB = async (
   // filter query
   if (Object.entries(filterdData).length > 0) {
     queries.push({
-      AND: Object.keys(filterdData).map((key) => ({
-        [key]: {
-          equals: filterdData[key],
-        },
-      })),
+      AND: Object.keys(filterdData).map((key) => {
+        if (key === "age") {
+          return {
+            age: {
+              equals: Number(filterdData[key]),
+            },
+          };
+        } else {
+          return {
+            [key]: {
+              equals: filterdData[key],
+            },
+          };
+        }
+      }),
     });
   }
-
   const whereQueries: Prisma.PetWhereInput = { AND: queries };
 
   if (
-    sortOptions &&
-    sortByOptionsFields.includes(sortOptions.sortBy as string)
+    Object.entries(sortOptions).length > 0 &&
+    !sortByOptionsFields.includes(sortOptions.sortBy as string)
   ) {
     throw new CustomError(
       StatusCodes.NOT_FOUND,
-      "You are only allowed to sort specific fields!"
+      "You are only allowed to sort by specific fields!"
     );
   }
 
