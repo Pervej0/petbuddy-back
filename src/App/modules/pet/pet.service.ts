@@ -1,5 +1,9 @@
 import { TPet } from "./pet.interface";
 import { Pet, Prisma, PrismaClient } from "@prisma/client";
+import { searchableFields, sortByOptionsFields } from "./pet.utils";
+import paginationCalculation from "../../shared/paginationCalculation";
+import CustomError from "../../errors/customError";
+import { StatusCodes } from "http-status-codes";
 const prisma = new PrismaClient();
 
 export const createPetDB = async (payload: TPet) => {
@@ -10,11 +14,15 @@ export const createPetDB = async (payload: TPet) => {
   return petData;
 };
 
-export const getAllPetDB = async (query: Record<string, unknown>) => {
+export const getAllPetDB = async (
+  query: Record<string, unknown>,
+  options: Record<string, unknown>,
+  sortOptions: Record<string, unknown>
+) => {
   const { searchTerm, ...filterdData } = query;
-  const searchableFields = ["species", "breed", "location"];
+  const { page, limit, skip } = paginationCalculation(options);
 
-  const queries: Prisma.UserWhereInput[] = [];
+  const queries: Prisma.PetWhereInput[] = [];
 
   // search query
   if (searchTerm) {
@@ -29,7 +37,7 @@ export const getAllPetDB = async (query: Record<string, unknown>) => {
   }
 
   // filter query
-  if (filterdData) {
+  if (Object.entries(filterdData).length > 0) {
     queries.push({
       AND: Object.keys(filterdData).map((key) => ({
         [key]: {
@@ -39,19 +47,42 @@ export const getAllPetDB = async (query: Record<string, unknown>) => {
     });
   }
 
-  const whereQueries: Prisma.UserWhereInput = { AND: queries };
-  console.dir(queries, { depth: "infinity" });
-  // return;
+  const whereQueries: Prisma.PetWhereInput = { AND: queries };
+
+  if (
+    sortOptions &&
+    sortByOptionsFields.includes(sortOptions.sortBy as string)
+  ) {
+    throw new CustomError(
+      StatusCodes.NOT_FOUND,
+      "You are only allowed to sort specific fields!"
+    );
+  }
+
   const pets = await prisma.pet.findMany({
+    where: whereQueries,
+    skip,
+    take: limit,
+    orderBy: {
+      [sortOptions.sortBy as string]: sortOptions.sortOrder,
+    },
+  });
+
+  const count = await prisma.pet.count({
     where: whereQueries,
   });
 
-  return pets;
+  return {
+    meta: {
+      page: 1,
+      limit: 1,
+      total: count,
+    },
+    data: pets,
+  };
 };
 
 export const updatePetDB = async (petId: string, payload: Partial<Pet>) => {
-  console.log(petId, payload);
-
   const update = await prisma.pet.update({
     where: { id: petId },
     data: payload,

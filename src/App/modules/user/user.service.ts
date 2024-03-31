@@ -45,6 +45,13 @@ export const updateUserDB = (user: TJwtDecode, payload: Partial<User>) => {
   const update = prisma.user.update({
     where: { email: user.email },
     data: payload,
+    select: {
+      id: true,
+      name: true,
+      email: true,
+      createdAt: true,
+      updatedAt: true,
+    },
   });
   return update;
 };

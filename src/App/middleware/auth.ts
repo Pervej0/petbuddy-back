@@ -4,6 +4,8 @@ import { StatusCodes } from "http-status-codes";
 import decodedToken from "../helper/decodedToken";
 import config from "../config";
 import { JwtPayload, Secret } from "jsonwebtoken";
+import { PrismaClient } from "@prisma/client";
+const prisma = new PrismaClient();
 
 const auth = () => {
   return async (
@@ -25,6 +27,9 @@ const auth = () => {
         throw new CustomError(StatusCodes.BAD_REQUEST, "Unauthorized Access");
       }
 
+      await prisma.user.findUniqueOrThrow({
+        where: { email: decode.email },
+      });
       req.user = decode;
 
       next();

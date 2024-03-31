@@ -9,12 +9,7 @@ import auth from "../../middleware/auth";
 const router = express.Router();
 
 router.get("/profile", auth(), getAUser);
-router.post(
-  "/register",
-  auth(),
-  validationChecker(userValidationSchema),
-  createUser
-);
+router.post("/register", validationChecker(userValidationSchema), createUser);
 router.put(
   "/profile",
   auth(),

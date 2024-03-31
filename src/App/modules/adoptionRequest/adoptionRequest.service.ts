@@ -6,6 +6,7 @@ export const createAdoptionRequestDB = async (
   payload: any,
   user: TJwtDecode
 ) => {
+  console.log(user);
   const getUser = await prisma.user.findUniqueOrThrow({
     where: {
       email: user.email,
@@ -25,6 +26,9 @@ export const updateAdoptionRequestDB = async (
   requestId: string,
   payload: Partial<AdoptionRequest>
 ) => {
+  await prisma.adoptionRequest.findUniqueOrThrow({
+    where: { id: requestId },
+  });
   const update = await prisma.adoptionRequest.update({
     where: { id: requestId },
     data: payload,
