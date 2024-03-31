@@ -29,7 +29,7 @@ export const getAllPet: RequestHandler = asyncCatch(async (req: any, res) => {
 
   sendResponse(res, {
     statusCode: StatusCodes.OK,
-    message: "Adoption requests retrieved successfully",
+    message: "Pets retrieved successfully",
     data: result,
   });
 });
