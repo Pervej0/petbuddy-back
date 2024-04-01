@@ -4,7 +4,7 @@ An web application for providing pet to individuals who can take care of their p
 
 ## Live Url
 
-(...)
+([...](https://pet-buddy-kappa.vercel.app/))
 
 ## project start
 
