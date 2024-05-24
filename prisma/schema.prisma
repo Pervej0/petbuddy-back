@@ -62,14 +62,14 @@ model Pet {
 }
 
 enum Gender {
-  Male
-  Female
+  male
+  female
 }
 
 enum petSize {
-  Small
-  Medium
-  Large
+  small
+  medium
+  large
 }
 
 model AdoptionRequest {

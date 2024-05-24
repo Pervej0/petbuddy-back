@@ -1,9 +1,10 @@
-import { PrismaClient } from "@prisma/client";
+import { PrismaClient, userStatus } from "@prisma/client";
 import bcrypt from "bcrypt";
 import { StatusCodes } from "http-status-codes";
 import config from "../../config";
 import generateToken from "../../helper/generateToken";
 import CustomError from "../../errors/customError";
+import { JwtPayload } from "jsonwebtoken";
 const prisma = new PrismaClient();
 
 export const loginUserDB = async (payload: {
@@ -22,12 +23,15 @@ export const loginUserDB = async (payload: {
   );
 
   if (!comparePassword) {
-    throw new CustomError(StatusCodes.NOT_FOUND, "User dose not exist!");
+    throw new CustomError(
+      StatusCodes.NOT_FOUND,
+      "Please, Enter correct password!"
+    );
   }
 
   const tokenPayload = {
     email: isUserExist.email,
-    name: isUserExist.name,
+    role: isUserExist.role,
   };
 
   const accessToken = await generateToken(
@@ -35,6 +39,7 @@ export const loginUserDB = async (payload: {
     config.ACCESS_TOKEN_SECRET as string,
     config.ACCESS_TOKEN_EXPIRES_IN as string
   );
+
   const refreshToken = await generateToken(
     tokenPayload,
     config.REFRESH_TOKEN_SECRET as string,
@@ -50,4 +55,40 @@ export const loginUserDB = async (payload: {
       token: accessToken,
     },
   };
+};
+
+export const changePasswordDB = async (
+  user: JwtPayload,
+  payload: { newPassword: string; oldPassword: string }
+) => {
+  const getUser = await prisma.user.findUniqueOrThrow({
+    where: { email: user.email, status: userStatus.activate },
+  });
+
+  const comparePassword = await bcrypt.compare(
+    payload.oldPassword,
+    getUser.password
+  );
+
+  if (!comparePassword) {
+    throw new CustomError(
+      StatusCodes.NOT_FOUND,
+      "Please, Enter correct password!"
+    );
+  }
+  const hashPassword = await bcrypt.hash(
+    payload.newPassword,
+    Number(config.SALT_ROUND) as number
+  );
+
+  await prisma.user.update({
+    where: {
+      email: getUser.email,
+    },
+    data: {
+      password: hashPassword,
+    },
+  });
+
+  return "updatePassword";
 };

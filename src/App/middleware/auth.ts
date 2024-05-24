@@ -7,7 +7,7 @@ import { JwtPayload, Secret } from "jsonwebtoken";
 import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 
-const auth = () => {
+const auth = (...roles: string[]) => {
   return async (
     req: Request & { user?: any },
     res: Response,
@@ -27,9 +27,14 @@ const auth = () => {
         throw new CustomError(StatusCodes.BAD_REQUEST, "Unauthorized Access");
       }
 
-      await prisma.user.findUniqueOrThrow({
+      const userCredentials = await prisma.user.findUniqueOrThrow({
         where: { email: decode.email },
       });
+
+      if (roles.length && !roles.includes(userCredentials.role)) {
+        throw new CustomError(StatusCodes.FORBIDDEN, "Forbidden To Access!");
+      }
+
       req.user = decode;
 
       next();

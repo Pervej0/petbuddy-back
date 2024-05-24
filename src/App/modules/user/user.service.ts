@@ -6,6 +6,9 @@ import { TJwtDecode } from "../../interface/global.type";
 const prisma = new PrismaClient();
 
 export const createUserDB = async (payload: TUser) => {
+  payload.status = "activate";
+  payload.role = "user";
+
   const hashPassword = await bcrypt.hash(
     payload.password,
     Number(config.SALT_ROUND) as number

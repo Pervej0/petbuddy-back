@@ -24,7 +24,7 @@ export type TCustomSimplifiedError = {
 
 export type TJwtPayload = {
   email: string;
-  name: string;
+  role: string;
 };
 
 export type TJwtDecode = {
