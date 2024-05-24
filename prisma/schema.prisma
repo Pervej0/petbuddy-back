@@ -14,16 +14,28 @@ datasource db {
 }
 
 model User {
-  id        String   @id @default(uuid())
+  id        String     @id @default(uuid())
   name      String
-  email     String   @unique
+  email     String     @unique
+  role      UserRole
   password  String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  status    userStatus
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
 
   AdoptionRequest AdoptionRequest[]
 
   @@map("users")
+}
+
+enum userStatus {
+  activate
+  deactivate
+}
+
+enum UserRole {
+  user
+  admin
 }
 
 model Pet {
@@ -33,17 +45,25 @@ model Pet {
   species              String
   breed                String
   age                  Int
+  gender               Gender
   size                 petSize
   location             String
   description          String
   temperament          String
   medicalHistory       String
   adoptionRequirements String
+  specialNeeds         String
+  HealthStatus         String
   createdAt            DateTime          @default(now())
   updatedAt            DateTime          @updatedAt
   AdoptionRequest      AdoptionRequest[]
 
   @@map("pets")
+}
+
+enum Gender {
+  Male
+  Female
 }
 
 enum petSize {
