@@ -3,6 +3,7 @@ import { petSize } from "@prisma/client";
 export type TPet = {
   name: string;
   species: string;
+  photo: string;
   breed: string;
   age: number;
   size: petSize;

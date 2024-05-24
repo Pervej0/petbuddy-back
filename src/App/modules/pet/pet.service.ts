@@ -4,9 +4,16 @@ import { searchableFields, sortByOptionsFields } from "./pet.utils";
 import paginationCalculation from "../../shared/paginationCalculation";
 import CustomError from "../../errors/customError";
 import { StatusCodes } from "http-status-codes";
+import { TFile } from "../../interface/global.type";
+import uploadFile from "../../middleware/uploadFile";
 const prisma = new PrismaClient();
 
-export const createPetDB = async (payload: TPet) => {
+export const createPetDB = async (payload: TPet, file: TFile) => {
+  if (file) {
+    const uploadCloud = await uploadFile.uploadToCloudinary(file);
+    payload.photo = uploadCloud?.secure_url || "";
+  }
+
   const petData = await prisma.pet.create({
     data: payload,
   });
@@ -21,7 +28,7 @@ export const getAllPetDB = async (
 ) => {
   const { searchTerm, ...filterdData } = query;
   const { page, limit, skip } = paginationCalculation(options);
-
+  // console.log(options, paginationCalculation(options));
   const queries: Prisma.PetWhereInput[] = [];
 
   // search query
@@ -83,8 +90,8 @@ export const getAllPetDB = async (
 
   return {
     meta: {
-      page: 1,
-      limit: 1,
+      page: page,
+      limit: limit,
       total: count,
     },
     data: pets,

@@ -33,3 +33,14 @@ export type TJwtDecode = {
   iat: number;
   exp: number;
 };
+
+export type TFile = {
+  fieldname: string;
+  originalname: string;
+  encoding: string;
+  mimetype: string;
+  destination: string;
+  filename: string;
+  path: string;
+  size: number;
+};

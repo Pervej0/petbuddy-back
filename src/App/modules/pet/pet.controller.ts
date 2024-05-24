@@ -10,8 +10,8 @@ import {
   filterAndSearchOptions,
 } from "./pet.utils";
 
-export const createPet: RequestHandler = asyncCatch(async (req, res) => {
-  const result = await createPetDB(req.body);
+export const createPet: RequestHandler = asyncCatch(async (req: any, res) => {
+  const result = await createPetDB(req.body, req.file);
 
   sendResponse(res, {
     statusCode: StatusCodes.CREATED,
