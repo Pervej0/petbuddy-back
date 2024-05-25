@@ -8,12 +8,24 @@ import { TFile } from "../../interface/global.type";
 import uploadFile from "../../middleware/uploadFile";
 const prisma = new PrismaClient();
 
-export const createPetDB = async (payload: TPet, file: TFile) => {
-  if (file) {
-    const uploadCloud = await uploadFile.uploadToCloudinary(file);
-    payload.photo = uploadCloud?.secure_url || "";
+export const createPetDB = async (payload: TPet, files: TFile[]) => {
+  // console.log(payload);
+  if (files.length < 1) {
+    throw new CustomError(
+      StatusCodes.BAD_REQUEST,
+      "Upload more than one image"
+    );
   }
-
+  if (files.length > 1) {
+    const multiplePhotos: string[] = [];
+    for (let file of files) {
+      const uploadCloud = await uploadFile.uploadToCloudinary(file);
+      console.log(uploadCloud);
+      multiplePhotos.push(uploadCloud?.secure_url as string);
+    }
+    payload.photos = multiplePhotos;
+  }
+  // console.log(payload, file);
   const petData = await prisma.pet.create({
     data: payload,
   });
@@ -102,6 +114,13 @@ export const updatePetDB = async (petId: string, payload: Partial<Pet>) => {
   const update = await prisma.pet.update({
     where: { id: petId },
     data: payload,
+  });
+  return update;
+};
+
+export const deletePetDB = async (petId: string, payload: Partial<Pet>) => {
+  const update = await prisma.pet.delete({
+    where: { id: petId },
   });
   return update;
 };

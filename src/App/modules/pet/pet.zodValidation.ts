@@ -9,16 +9,20 @@ export const petValidationSchema = z.object({
     .number({ required_error: "Age is required!" })
     .int()
     .positive({ message: "Must be positive number" }),
-  size: z.enum(["Large", "Medium", "Small"]),
+  photos: z.array(z.string()).optional(),
+  size: z.enum(["large", "medium", "small"]),
+  gender: z.enum(["male", "female"]),
   location: z.string({ required_error: "Location is required!" }),
   description: z.string({ required_error: "Description is required!" }),
   temperament: z
     .string({ required_error: "Temperament is required!" })
     .regex(/^[\w\s,-]+$/i),
-  medicalHistory: z.string({ required_error: "Medica History is required!" }),
+  medicalHistory: z.string({ required_error: "medicalHistory is required!" }),
   adoptionRequirements: z.string({
     required_error: "Adoption requirements is required!",
   }),
+  specialNeeds: z.string({ required_error: "SpecialNeeds is required!" }),
+  healthStatus: z.string({ required_error: "healthStatus is required!" }),
 });
 
 export const UpdatePetValidationSchema = z.object({
@@ -39,7 +43,8 @@ export const UpdatePetValidationSchema = z.object({
       .int()
       .positive({ message: "Must be positive number" })
       .optional(),
-    size: z.enum([petSize.Large, petSize.Medium, petSize.Small]).optional(),
+    gender: z.enum(["male", "female"]),
+    size: z.enum([petSize.large, petSize.medium, petSize.small]).optional(),
     location: z.string({ required_error: "Location is required!" }).optional(),
     description: z
       .string({ required_error: "Description is required!" })
@@ -49,12 +54,18 @@ export const UpdatePetValidationSchema = z.object({
       .regex(/^[\w\s,-]+$/i)
       .optional(),
     medicalHistory: z
-      .string({ required_error: "Medica History is required!" })
+      .string({ required_error: "MedicalHistory is required!" })
       .optional(),
     adoptionRequirements: z
       .string({
         required_error: "Adoption requirements is required!",
       })
+      .optional(),
+    specialNeeds: z
+      .string({ required_error: "SpecialNeeds is required!" })
+      .optional(),
+    healthStatus: z
+      .string({ required_error: "healthStatus is required!" })
       .optional(),
   }),
 });

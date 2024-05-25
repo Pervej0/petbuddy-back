@@ -10,6 +10,7 @@ export const filterAndSearchOptions = [
   "age",
   "size",
   "location",
+  "specialNeeds",
   "searchTerm",
 ];
 

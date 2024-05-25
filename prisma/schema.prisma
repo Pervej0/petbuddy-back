@@ -41,7 +41,7 @@ enum UserRole {
 model Pet {
   id                   String            @id @default(uuid())
   name                 String
-  photo                String
+  photos               String[]
   species              String
   breed                String
   age                  Int
@@ -53,7 +53,7 @@ model Pet {
   medicalHistory       String
   adoptionRequirements String
   specialNeeds         String
-  HealthStatus         String
+  healthStatus         HealthStatus
   createdAt            DateTime          @default(now())
   updatedAt            DateTime          @updatedAt
   AdoptionRequest      AdoptionRequest[]
@@ -64,6 +64,13 @@ model Pet {
 enum Gender {
   male
   female
+}
+
+enum HealthStatus {
+  excellent
+  good
+  better
+  bad
 }
 
 enum petSize {

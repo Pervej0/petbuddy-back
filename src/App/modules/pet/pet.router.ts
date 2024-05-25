@@ -7,14 +7,14 @@ import {
 } from "./pet.zodValidation";
 import auth from "../../middleware/auth";
 import uploadFile from "../../middleware/uploadFile";
+import { UserRole } from "@prisma/client";
 const router = express.Router();
 
 router.get("/pets", auth(), getAllPet);
 router.post(
   "/pets",
-  auth(),
-  // validationChecker(petValidationSchema),
-  uploadFile.upload.single("file"),
+  auth(UserRole.admin),
+  uploadFile.upload.array("file", 3),
   (req: Request, res: Response, next: NextFunction) => {
     const data = petValidationSchema.parse(JSON.parse(req.body.data));
     // console.log(data);

@@ -22,6 +22,8 @@ export const createUserDB = async (payload: TUser) => {
     select: {
       id: true,
       name: true,
+      role: true,
+      status: true,
       email: true,
       createdAt: true,
       updatedAt: true,

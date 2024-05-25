@@ -11,7 +11,7 @@ import {
 } from "./pet.utils";
 
 export const createPet: RequestHandler = asyncCatch(async (req: any, res) => {
-  const result = await createPetDB(req.body, req.file);
+  const result = await createPetDB(req.body, req.files);
 
   sendResponse(res, {
     statusCode: StatusCodes.CREATED,
