@@ -1,5 +1,5 @@
 import express, { NextFunction, Request, Response } from "express";
-import { createPet, getAllPet, updatePet } from "./pet.controller";
+import { createPet, deletePet, getAllPet, updatePet } from "./pet.controller";
 import validationChecker from "../../middleware/validationChecker";
 import {
   UpdatePetValidationSchema,
@@ -10,7 +10,7 @@ import uploadFile from "../../middleware/uploadFile";
 import { UserRole } from "@prisma/client";
 const router = express.Router();
 
-router.get("/pets", auth(), getAllPet);
+router.get("/pets", auth(UserRole.admin, UserRole.user), getAllPet);
 router.post(
   "/pets",
   auth(UserRole.admin),
@@ -25,10 +25,12 @@ router.post(
 
 router.put(
   "/pets/:petId",
-  auth(),
+  auth(UserRole.admin),
   validationChecker(UpdatePetValidationSchema),
   updatePet
 );
+
+router.delete("/pets/:petId", auth(UserRole.admin), deletePet);
 
 const petRouter = router;
 

@@ -6,13 +6,18 @@ export const createAdoptionRequestDB = async (
   payload: any,
   user: TJwtDecode
 ) => {
-  console.log(user);
+  const getPet = await prisma.pet.findUniqueOrThrow({
+    where: { id: payload.petId },
+  });
+
   const getUser = await prisma.user.findUniqueOrThrow({
     where: {
       email: user.email,
     },
   });
-
+  payload.petName = getPet.name;
+  payload.photo = getPet.photos[0];
+  payload.adoptionDate = new Date(payload.adoptionDate);
   payload.userId = getUser.id;
 
   const adoptionRequest = await prisma.adoptionRequest.create({

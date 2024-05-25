@@ -1,6 +1,11 @@
 import { RequestHandler } from "express";
 import asyncCatch from "../../shared/asyncCatch";
-import { createPetDB, getAllPetDB, updatePetDB } from "./pet.service";
+import {
+  createPetDB,
+  deletePetDB,
+  getAllPetDB,
+  updatePetDB,
+} from "./pet.service";
 import { StatusCodes } from "http-status-codes";
 import sendResponse from "../../shared/sendResponse";
 import pickFields from "../../helper/pickFields";
@@ -26,6 +31,16 @@ export const updatePet: RequestHandler = asyncCatch(async (req: any, res) => {
   sendResponse(res, {
     statusCode: StatusCodes.OK,
     message: "Pet profile updated successfully",
+    data: result,
+  });
+});
+
+export const deletePet: RequestHandler = asyncCatch(async (req, res) => {
+  const result = await deletePetDB(req.params.petId);
+
+  sendResponse(res, {
+    statusCode: StatusCodes.OK,
+    message: "Pet profile deleted successfully",
     data: result,
   });
 });

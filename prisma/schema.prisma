@@ -86,6 +86,9 @@ model AdoptionRequest {
   pet                    Pet                   @relation(fields: [petId], references: [id])
   petId                  String
   status                 AdoptionRequestStatus @default(PENDING)
+  petName                String
+  photo                  String
+  adoptionDate           DateTime
   petOwnershipExperience String
   createdAt              DateTime              @default(now())
   updatedAt              DateTime              @updatedAt

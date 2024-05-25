@@ -16,11 +16,11 @@ export const createPetDB = async (payload: TPet, files: TFile[]) => {
       "Upload more than one image"
     );
   }
+
   if (files.length > 1) {
     const multiplePhotos: string[] = [];
     for (let file of files) {
       const uploadCloud = await uploadFile.uploadToCloudinary(file);
-      console.log(uploadCloud);
       multiplePhotos.push(uploadCloud?.secure_url as string);
     }
     payload.photos = multiplePhotos;
@@ -118,7 +118,8 @@ export const updatePetDB = async (petId: string, payload: Partial<Pet>) => {
   return update;
 };
 
-export const deletePetDB = async (petId: string, payload: Partial<Pet>) => {
+export const deletePetDB = async (petId: string) => {
+  console.log(petId, "pypypyp");
   const update = await prisma.pet.delete({
     where: { id: petId },
   });
