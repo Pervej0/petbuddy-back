@@ -53,7 +53,7 @@ model Pet {
   medicalHistory       String
   adoptionRequirements String
   specialNeeds         String
-  healthStatus         HealthStatus
+  healthStatus         String
   createdAt            DateTime          @default(now())
   updatedAt            DateTime          @updatedAt
   AdoptionRequest      AdoptionRequest[]
@@ -64,13 +64,6 @@ model Pet {
 enum Gender {
   male
   female
-}
-
-enum HealthStatus {
-  excellent
-  good
-  better
-  bad
 }
 
 enum petSize {

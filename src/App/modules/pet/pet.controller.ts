@@ -4,6 +4,7 @@ import {
   createPetDB,
   deletePetDB,
   getAllPetDB,
+  getSinglePetDB,
   updatePetDB,
 } from "./pet.service";
 import { StatusCodes } from "http-status-codes";
@@ -24,6 +25,18 @@ export const createPet: RequestHandler = asyncCatch(async (req: any, res) => {
     data: result,
   });
 });
+
+export const getSinglePet: RequestHandler = asyncCatch(
+  async (req: any, res) => {
+    const result = await getSinglePetDB(req.params.petId);
+
+    sendResponse(res, {
+      statusCode: StatusCodes.OK,
+      message: "Pet retrieved successfully",
+      data: result,
+    });
+  }
+);
 
 export const updatePet: RequestHandler = asyncCatch(async (req: any, res) => {
   const result = await updatePetDB(req.params.petId, req.body);

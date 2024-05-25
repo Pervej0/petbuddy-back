@@ -1,5 +1,11 @@
 import express, { NextFunction, Request, Response } from "express";
-import { createPet, deletePet, getAllPet, updatePet } from "./pet.controller";
+import {
+  createPet,
+  deletePet,
+  getAllPet,
+  getSinglePet,
+  updatePet,
+} from "./pet.controller";
 import validationChecker from "../../middleware/validationChecker";
 import {
   UpdatePetValidationSchema,
@@ -11,6 +17,7 @@ import { UserRole } from "@prisma/client";
 const router = express.Router();
 
 router.get("/pets", auth(UserRole.admin, UserRole.user), getAllPet);
+router.get("/pets/:petId", auth(UserRole.admin, UserRole.user), getSinglePet);
 router.post(
   "/pets",
   auth(UserRole.admin),

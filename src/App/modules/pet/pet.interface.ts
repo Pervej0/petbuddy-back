@@ -14,5 +14,5 @@ export type TPet = {
   medicalHistory: string;
   adoptionRequirements: string;
   specialNeeds: string;
-  healthStatus: HealthStatus;
+  healthStatus: string;
 };

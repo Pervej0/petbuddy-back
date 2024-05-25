@@ -110,6 +110,13 @@ export const getAllPetDB = async (
   };
 };
 
+export const getSinglePetDB = async (petId: string) => {
+  const petData = await prisma.pet.findUniqueOrThrow({
+    where: { id: petId },
+  });
+
+  return petData;
+};
 export const updatePetDB = async (petId: string, payload: Partial<Pet>) => {
   const update = await prisma.pet.update({
     where: { id: petId },
@@ -119,7 +126,6 @@ export const updatePetDB = async (petId: string, payload: Partial<Pet>) => {
 };
 
 export const deletePetDB = async (petId: string) => {
-  console.log(petId, "pypypyp");
   const update = await prisma.pet.delete({
     where: { id: petId },
   });
