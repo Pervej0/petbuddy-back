@@ -6,6 +6,7 @@ import {
 } from "./adoptionRequest.zodValidation";
 import {
   createAdoptionRequest,
+  deleteAdoptionRequests,
   getAllAdoptionRequests,
   getMyAdoptionRequests,
   updateAdoptionRequest,
@@ -22,8 +23,8 @@ router.get(
 );
 
 router.post(
-  "/adoption-request",
-  auth(),
+  "/adoption-requests",
+  auth(UserRole.admin, UserRole.user),
   validationChecker(adoptionRequestValidationSchema),
   createAdoptionRequest
 );
@@ -31,8 +32,13 @@ router.post(
 router.put(
   "/adoption-requests/:requestId",
   validationChecker(UpdateAdoptionRequestValidationSchema),
-  auth(),
+  auth(UserRole.admin),
   updateAdoptionRequest
+);
+router.delete(
+  "/adoption-requests/:requestId",
+  auth(UserRole.admin, UserRole.user),
+  deleteAdoptionRequests
 );
 
 const AdoptionRequestRouter = router;

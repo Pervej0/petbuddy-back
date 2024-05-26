@@ -4,6 +4,7 @@ import sendResponse from "../../shared/sendResponse";
 import { StatusCodes } from "http-status-codes";
 import {
   createAdoptionRequestDB,
+  deleteAdoptionRequestsDB,
   getAllAdoptionRequestsDB,
   getMyAdoptionRequestsDB,
   updateAdoptionRequestDB,
@@ -51,6 +52,20 @@ export const getMyAdoptionRequests: RequestHandler = asyncCatch(
     sendResponse(res, {
       statusCode: StatusCodes.OK,
       message: "Your adoption requests retrieved successfully",
+      data: result,
+    });
+  }
+);
+
+export const deleteAdoptionRequests: RequestHandler = asyncCatch(
+  async (req: any, res) => {
+    const result = await deleteAdoptionRequestsDB(
+      req.user,
+      req.params.requestId
+    );
+    sendResponse(res, {
+      statusCode: StatusCodes.OK,
+      message: "Adoption requests deleted successfully",
       data: result,
     });
   }

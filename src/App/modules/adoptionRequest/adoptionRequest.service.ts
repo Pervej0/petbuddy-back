@@ -1,4 +1,4 @@
-import { AdoptionRequest, PrismaClient } from "@prisma/client";
+import { AdoptionRequest, PrismaClient, UserRole } from "@prisma/client";
 import { TJwtDecode } from "../../interface/global.type";
 import { TUser } from "../user/user.interface";
 import { JwtPayload } from "jsonwebtoken";
@@ -49,6 +49,24 @@ export const getMyAdoptionRequestsDB = async (user: any) => {
     where: {
       email: user.email,
     },
+    include: {
+      pet: true,
+    },
   });
   return requests;
+};
+
+export const deleteAdoptionRequestsDB = async (user: any, id: string) => {
+  if (user.role === UserRole.admin) {
+    return prisma.adoptionRequest.delete({ where: { id: id } });
+  }
+
+  await prisma.adoptionRequest.findUniqueOrThrow({
+    where: { email: user.email, id: id },
+  });
+
+  const result = await prisma.adoptionRequest.delete({
+    where: { email: user.email, id: id },
+  });
+  return result;
 };

@@ -8,7 +8,7 @@ const router = express.Router();
 
 router.post("/login", validationChecker(loginUserSchema), loginUser);
 
-router.get(
+router.post(
   "/change-password",
   auth(UserRole.admin, UserRole.user),
   changePassword
