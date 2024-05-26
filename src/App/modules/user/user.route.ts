@@ -1,6 +1,7 @@
 import express from "express";
 import {
   createUser,
+  deleteUser,
   getAUser,
   getAllUser,
   updateUser,
@@ -12,6 +13,7 @@ import {
 import validationChecker from "../../middleware/validationChecker";
 import auth from "../../middleware/auth";
 import { UserRole } from "@prisma/client";
+import { deleteUserDB } from "./user.service";
 const router = express.Router();
 
 router.get("/profile", auth(UserRole.user, UserRole.admin), getAUser);
@@ -23,6 +25,8 @@ router.put(
   validationChecker(UpdateUserValidationSchema),
   updateUser
 );
+
+router.delete("/profiles/:userId", auth(UserRole.admin), deleteUser);
 
 const userRouter = router;
 

@@ -2,6 +2,7 @@ import { RequestHandler } from "express";
 import asyncCatch from "../../shared/asyncCatch";
 import {
   createUserDB,
+  deleteUserDB,
   getAUserDB,
   getAllUserDB,
   updateUserDB,
@@ -44,6 +45,16 @@ export const updateUser: RequestHandler = asyncCatch(async (req: any, res) => {
   sendResponse(res, {
     statusCode: StatusCodes.OK,
     message: "User profile updated successfully",
+    data: result,
+  });
+});
+
+export const deleteUser: RequestHandler = asyncCatch(async (req, res) => {
+  const result = await deleteUserDB(req.params.userId);
+
+  sendResponse(res, {
+    statusCode: StatusCodes.OK,
+    message: "User profile deleted successfully",
     data: result,
   });
 });

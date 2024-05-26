@@ -74,3 +74,11 @@ export const updateUserDB = (user: TJwtDecode, payload: Partial<User>) => {
   });
   return update;
 };
+
+export const deleteUserDB = (userId: string) => {
+  const deleteResult = prisma.user.delete({
+    where: { id: userId },
+  });
+
+  return deleteResult;
+};
