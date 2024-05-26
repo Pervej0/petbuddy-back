@@ -16,7 +16,7 @@ import uploadFile from "../../middleware/uploadFile";
 import { UserRole } from "@prisma/client";
 const router = express.Router();
 
-router.get("/pets", auth(UserRole.admin, UserRole.user), getAllPet);
+router.get("/pets", getAllPet);
 router.get("/pets/:petId", auth(UserRole.admin, UserRole.user), getSinglePet);
 router.post(
   "/pets",

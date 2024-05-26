@@ -1,6 +1,11 @@
 import { RequestHandler } from "express";
 import asyncCatch from "../../shared/asyncCatch";
-import { createUserDB, getAUserDB, updateUserDB } from "./user.service";
+import {
+  createUserDB,
+  getAUserDB,
+  getAllUserDB,
+  updateUserDB,
+} from "./user.service";
 import { StatusCodes } from "http-status-codes";
 import sendResponse from "../../shared/sendResponse";
 
@@ -10,6 +15,15 @@ export const getAUser: RequestHandler = asyncCatch(async (req: any, res) => {
   sendResponse(res, {
     statusCode: StatusCodes.OK,
     message: "User profile retrieved successfully",
+    data: result,
+  });
+});
+export const getAllUser: RequestHandler = asyncCatch(async (req: any, res) => {
+  const result = await getAllUserDB();
+
+  sendResponse(res, {
+    statusCode: StatusCodes.OK,
+    message: "All user profile retrieved successfully",
     data: result,
   });
 });

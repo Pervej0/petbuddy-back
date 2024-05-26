@@ -38,7 +38,7 @@ export const getAllPetDB = async (
   options: Record<string, unknown>,
   sortOptions: Record<string, unknown>
 ) => {
-  const { searchTerm, ...filterdData } = query;
+  const { searchTerm, specialNeeds, ...filterdData } = query;
   const { page, limit, skip } = paginationCalculation(options);
   // console.log(options, paginationCalculation(options));
   const queries: Prisma.PetWhereInput[] = [];
@@ -52,6 +52,16 @@ export const getAllPetDB = async (
           mode: "insensitive",
         },
       })),
+    });
+  }
+
+  // filter for special needs
+  if (specialNeeds) {
+    queries.push({
+      specialNeeds: {
+        contains: specialNeeds as string,
+        mode: "insensitive",
+      },
     });
   }
 
