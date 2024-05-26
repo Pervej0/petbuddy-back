@@ -1,5 +1,7 @@
 import { AdoptionRequest, PrismaClient } from "@prisma/client";
 import { TJwtDecode } from "../../interface/global.type";
+import { TUser } from "../user/user.interface";
+import { JwtPayload } from "jsonwebtoken";
 const prisma = new PrismaClient();
 
 export const createAdoptionRequestDB = async (
@@ -15,11 +17,7 @@ export const createAdoptionRequestDB = async (
       email: user.email,
     },
   });
-  payload.petName = getPet.name;
-  payload.photo = getPet.photos[0];
-  payload.adoptionDate = new Date(payload.adoptionDate);
   payload.userId = getUser.id;
-
   const adoptionRequest = await prisma.adoptionRequest.create({
     data: payload,
   });
@@ -43,5 +41,14 @@ export const updateAdoptionRequestDB = async (
 
 export const getAllAdoptionRequestsDB = async () => {
   const requests = await prisma.adoptionRequest.findMany({});
+  return requests;
+};
+
+export const getMyAdoptionRequestsDB = async (user: any) => {
+  const requests = await prisma.adoptionRequest.findMany({
+    where: {
+      email: user.email,
+    },
+  });
   return requests;
 };

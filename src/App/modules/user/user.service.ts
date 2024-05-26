@@ -53,6 +53,8 @@ export const getAUserDB = async (payload: TJwtDecode) => {
       id: true,
       name: true,
       email: true,
+      role: true,
+      status: true,
       createdAt: true,
       updatedAt: true,
     },

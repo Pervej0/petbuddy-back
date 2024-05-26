@@ -7,12 +7,20 @@ import {
 import {
   createAdoptionRequest,
   getAllAdoptionRequests,
+  getMyAdoptionRequests,
   updateAdoptionRequest,
 } from "./adoptionRequest.controller";
 import auth from "../../middleware/auth";
+import { UserRole } from "@prisma/client";
 const router = express.Router();
 
-router.get("/adoption-requests", auth(), getAllAdoptionRequests);
+router.get("/adoption-requests", auth(UserRole.admin), getAllAdoptionRequests);
+router.get(
+  "/adoption-requests/my-request",
+  auth(UserRole.admin, UserRole.user),
+  getMyAdoptionRequests
+);
+
 router.post(
   "/adoption-request",
   auth(),
