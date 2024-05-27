@@ -40,7 +40,9 @@ export const updateAdoptionRequestDB = async (
 };
 
 export const getAllAdoptionRequestsDB = async () => {
-  const requests = await prisma.adoptionRequest.findMany({});
+  const requests = await prisma.adoptionRequest.findMany({
+    include: { pet: true },
+  });
   return requests;
 };
 

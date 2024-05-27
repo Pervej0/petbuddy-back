@@ -30,3 +30,10 @@ export const UpdateUserValidationSchema = z.object({
       .optional(),
   }),
 });
+
+export const UpdateUserRoleValidationSchema = z.object({
+  body: z.object({
+    email: z.string({ required_error: "Email field is required." }),
+    role: z.string({ required_error: "Role type is required!" }),
+  }),
+});

@@ -1,4 +1,4 @@
-import { PrismaClient, User } from "@prisma/client";
+import { PrismaClient, User, UserRole, userStatus } from "@prisma/client";
 import bcrypt from "bcrypt";
 import { TUser } from "./user.interface";
 import config from "../../config";
@@ -77,10 +77,41 @@ export const updateUserDB = (user: TJwtDecode, payload: Partial<User>) => {
   return update;
 };
 
-export const deleteUserDB = (userId: string) => {
-  const deleteResult = prisma.user.delete({
+export const deleteUserDB = async (userId: string) => {
+  const deleteResult = await prisma.user.delete({
     where: { id: userId },
   });
 
   return deleteResult;
+};
+
+export const changeUserRoleAndStatusDB = async (payload: {
+  email?: string;
+  id?: string;
+  status?: userStatus;
+  role?: UserRole;
+}) => {
+  if (payload.status) {
+    console.log(payload);
+    return await prisma.user.update({
+      where: { id: payload.id },
+      data: { status: payload.status },
+    });
+  }
+
+  await prisma.user.findFirstOrThrow({
+    where: { email: payload.email },
+    select: {
+      email: true,
+      password: true,
+      id: true,
+    },
+  });
+
+  const result = await prisma.user.update({
+    where: { email: payload.email },
+    data: { role: payload.role },
+  });
+
+  return result;
 };

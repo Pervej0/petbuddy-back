@@ -1,6 +1,7 @@
 import { RequestHandler } from "express";
 import asyncCatch from "../../shared/asyncCatch";
 import {
+  changeUserRoleAndStatusDB,
   createUserDB,
   deleteUserDB,
   getAUserDB,
@@ -58,3 +59,15 @@ export const deleteUser: RequestHandler = asyncCatch(async (req, res) => {
     data: result,
   });
 });
+
+export const changeUserRoleAndStatus: RequestHandler = asyncCatch(
+  async (req, res) => {
+    const result = await changeUserRoleAndStatusDB(req.body);
+
+    sendResponse(res, {
+      statusCode: StatusCodes.OK,
+      message: "User meta updated successfully",
+      data: result,
+    });
+  }
+);
