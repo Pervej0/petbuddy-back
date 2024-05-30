@@ -21,7 +21,7 @@ router.get("/pets/:petId", auth(UserRole.admin, UserRole.user), getSinglePet);
 router.post(
   "/pets",
   auth(UserRole.admin),
-  uploadFile.upload.array("file", 3),
+  // uploadFile.upload.array("file", 3),
   (req: Request, res: Response, next: NextFunction) => {
     const data = petValidationSchema.parse(JSON.parse(req.body.data));
     // console.log(data);

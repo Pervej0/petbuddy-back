@@ -30,7 +30,6 @@ router.delete("/profiles/:userId", auth(UserRole.admin), deleteUser);
 router.put(
   "/change-user-role-status",
   auth(UserRole.admin),
-  // validationChecker(UpdateUserRoleValidationSchema),
   changeUserRoleAndStatus
 );
 

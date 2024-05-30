@@ -17,6 +17,13 @@ export const loginUserDB = async (payload: {
     },
   });
 
+  if (isUserExist.status === userStatus.deactivate) {
+    throw new CustomError(
+      StatusCodes.FORBIDDEN,
+      "Your account is currently deactivated, please try agin!"
+    );
+  }
+
   const comparePassword = await bcrypt.compare(
     payload.password,
     isUserExist.password

@@ -8,24 +8,8 @@ import { TFile } from "../../interface/global.type";
 import uploadFile from "../../middleware/uploadFile";
 const prisma = new PrismaClient();
 
-export const createPetDB = async (payload: TPet, files: TFile[]) => {
-  // console.log(payload);
-  if (files.length < 1) {
-    throw new CustomError(
-      StatusCodes.BAD_REQUEST,
-      "Upload more than one image"
-    );
-  }
-
-  if (files.length > 1) {
-    const multiplePhotos: string[] = [];
-    for (let file of files) {
-      const uploadCloud = await uploadFile.uploadToCloudinary(file);
-      multiplePhotos.push(uploadCloud?.secure_url as string);
-    }
-    payload.photos = multiplePhotos;
-  }
-  // console.log(payload, file);
+export const createPetDB = async (payload: TPet) => {
+  console.log(payload);
   const petData = await prisma.pet.create({
     data: payload,
   });

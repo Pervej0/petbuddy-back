@@ -92,7 +92,7 @@ export const changeUserRoleAndStatusDB = async (payload: {
   role?: UserRole;
 }) => {
   if (payload.status) {
-    console.log(payload);
+    console.log(payload, "y");
     return await prisma.user.update({
       where: { id: payload.id },
       data: { status: payload.status },
@@ -108,6 +108,8 @@ export const changeUserRoleAndStatusDB = async (payload: {
     },
   });
 
+  console.log(payload.email, "xsxss");
+  return;
   const result = await prisma.user.update({
     where: { email: payload.email },
     data: { role: payload.role },
