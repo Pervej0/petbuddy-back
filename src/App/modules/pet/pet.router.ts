@@ -12,7 +12,7 @@ import {
   petValidationSchema,
 } from "./pet.zodValidation";
 import auth from "../../middleware/auth";
-import uploadFile from "../../middleware/uploadFile";
+// import uploadFile from "../../middleware/uploadFile";
 import { UserRole } from "@prisma/client";
 const router = express.Router();
 
@@ -24,7 +24,6 @@ router.post(
   // uploadFile.upload.array("file", 3),
   (req: Request, res: Response, next: NextFunction) => {
     const data = petValidationSchema.parse(JSON.parse(req.body.data));
-    // console.log(data);
     req.body = data;
     return createPet(req, res, next);
   }
