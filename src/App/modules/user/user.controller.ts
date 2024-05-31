@@ -51,6 +51,7 @@ export const updateUser: RequestHandler = asyncCatch(async (req: any, res) => {
 });
 
 export const deleteUser: RequestHandler = asyncCatch(async (req: any, res) => {
+  console.log(req.params.userId, "yyy");
   const result = await deleteUserDB(req.params.userId, req.user);
 
   sendResponse(res, {

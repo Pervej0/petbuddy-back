@@ -91,12 +91,14 @@ export const deleteUserDB = async (userId: string, user: TJwtDecode) => {
   const userInfo = await prisma.user.findUniqueOrThrow({
     where: { id: userId },
   });
+
   if (userInfo.email === user.email) {
     throw new CustomError(
       StatusCodes.BAD_REQUEST,
       "You can't modify yourself!"
     );
   }
+
   const deleteResult = await prisma.user.delete({
     where: { id: userId },
   });
