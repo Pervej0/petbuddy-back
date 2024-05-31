@@ -4,12 +4,9 @@ import { searchableFields, sortByOptionsFields } from "./pet.utils";
 import paginationCalculation from "../../shared/paginationCalculation";
 import CustomError from "../../errors/customError";
 import { StatusCodes } from "http-status-codes";
-import { TFile } from "../../interface/global.type";
-import uploadFile from "../../middleware/uploadFile";
 const prisma = new PrismaClient();
 
 export const createPetDB = async (payload: TPet) => {
-  console.log(payload);
   const petData = await prisma.pet.create({
     data: payload,
   });

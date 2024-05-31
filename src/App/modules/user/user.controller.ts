@@ -50,8 +50,8 @@ export const updateUser: RequestHandler = asyncCatch(async (req: any, res) => {
   });
 });
 
-export const deleteUser: RequestHandler = asyncCatch(async (req, res) => {
-  const result = await deleteUserDB(req.params.userId);
+export const deleteUser: RequestHandler = asyncCatch(async (req: any, res) => {
+  const result = await deleteUserDB(req.params.userId, req.user);
 
   sendResponse(res, {
     statusCode: StatusCodes.OK,
@@ -61,8 +61,8 @@ export const deleteUser: RequestHandler = asyncCatch(async (req, res) => {
 });
 
 export const changeUserRoleAndStatus: RequestHandler = asyncCatch(
-  async (req, res) => {
-    const result = await changeUserRoleAndStatusDB(req.body);
+  async (req: any, res) => {
+    const result = await changeUserRoleAndStatusDB(req.body, req.user);
 
     sendResponse(res, {
       statusCode: StatusCodes.OK,
